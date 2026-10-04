@@ -1,0 +1,32 @@
+name: Populate Task 05 Outputs
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  populate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download outputs
+        run: |
+          mkdir -p outputs
+          curl -L --fail -o outputs/accident_hotspots.png https://raw.githubusercontent.com/shutkarshX/Prodigy-Infotech/main/Task-05/outputs/accident_hotspots.png
+          curl -L --fail -o outputs/accidents_by_time_of_day.png https://raw.githubusercontent.com/shutkarshX/Prodigy-Infotech/main/Task-05/outputs/accidents_by_time_of_day.png
+          curl -L --fail -o outputs/accidents_by_weather.png https://raw.githubusercontent.com/shutkarshX/Prodigy-Infotech/main/Task-05/outputs/accidents_by_weather.png
+          curl -L --fail -o outputs/geographic_hotspots.png https://raw.githubusercontent.com/shutkarshX/Prodigy-Infotech/main/Task-05/outputs/geographic_hotspots.png
+          curl -L --fail -o outputs/road_factors.png https://raw.githubusercontent.com/shutkarshX/Prodigy-Infotech/main/Task-05/outputs/road_factors.png
+          curl -L --fail -o outputs/severity_by_time.png https://raw.githubusercontent.com/shutkarshX/Prodigy-Infotech/main/Task-05/outputs/severity_by_time.png
+          curl -L --fail -o outputs/top_states.png https://raw.githubusercontent.com/shutkarshX/Prodigy-Infotech/main/Task-05/outputs/top_states.png
+      - name: Commit outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add outputs/
+          git diff --cached --quiet && exit 0
+          git commit -m "Add Task 05 output visualizations"
+          git push
